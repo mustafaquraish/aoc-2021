@@ -1,6 +1,6 @@
 from copy import deepcopy
 from rich import print
-from parse import parse
+from parse import findall, parse
 from more_itertools import chunked, ilen
 from collections import Counter, defaultdict
 from tqdm import tqdm
@@ -12,6 +12,9 @@ def infile(filename):
     if len(sys.argv) < 2:
         return 'input/'+filename
     return sys.argv[1]
+
+def get_lines(file):
+    return [line.strip() for line in file.readlines()]
 
 def get_all_ints(text):
     return [int(x) for x in re.findall(r'-?\d+', text)]

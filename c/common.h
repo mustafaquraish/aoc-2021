@@ -53,3 +53,12 @@ void swap(int *a, int *b) {
   *a = *b;
   *b = tmp;
 }
+
+char *fgetstrip(char *buf, int size, FILE *f) {
+  char *ret = fgets(buf, size, f);
+  if (ret && ret[strlen(ret) - 1] == '\n')
+    ret[strlen(ret) - 1] = '\0';
+  return ret;
+}
+
+#define GETLINE(buf, f) fgetstrip(buf, sizeof(buf), f)
