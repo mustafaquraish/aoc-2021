@@ -3,7 +3,7 @@ from common import *
 with open(infile('14.txt')) as f:
     line, _, *rest = get_lines(f)
     first = line[0]
-    start = Counter("".join((a,b)) for a, b in zip(line, line[1:]))
+    start = Counter(map("".join, zip(line, line[1:])))
     data = dict(l.split(' -> ') for l in rest)
 
 def step(mp):

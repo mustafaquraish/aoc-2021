@@ -22,7 +22,10 @@ typedef struct {
 
 inline int Vec_push(Vector *vec, u64 value) {
   if (vec->size == vec->capacity) {
-    vec->capacity *= 2;
+    if (vec->capacity == 0) 
+      vec->capacity = 16;
+    else 
+      vec->capacity *= 2;
     vec->data = realloc(vec->data, vec->capacity * sizeof(u64));
   }
   vec->data[vec->size] = value;
@@ -42,6 +45,23 @@ inline u64 Vec_top(Vector *vec) {
 inline u64 Vec_get(Vector *vec, int index) {
   assert(index >= 0 && index < vec->size);
   return vec->data[index];
+}
+
+inline int Vec_geti(Vector *vec, int index) {
+  assert(index >= 0 && index < vec->size);
+  return vec->data[index];
+}
+
+int cmp_u64_dec(const void *a, const void *b) {
+  u64 *aa = (u64 *)a;
+  u64 *bb = (u64 *)b;
+  return (*aa < *bb) ? 1 : -1;
+}
+
+int cmp_u64_inc(const void *a, const void *b) {
+  u64 *aa = (u64 *)a;
+  u64 *bb = (u64 *)b;
+  return (*aa < *bb) ? -1 : 1;
 }
 
 int sign(int x) { return x > 0 ? +1 : x == 0 ? 0 : -1; }

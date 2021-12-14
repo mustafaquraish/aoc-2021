@@ -4,7 +4,7 @@ void parse() {
   FILE *f = fopen(INFILE("00.txt"), "r");
   char buf[2048];
 
-  while (fgets(buf, 2048, f)) {
+  while (GETLINE(buf, f)) {
     char *line = buf;
   }
 
