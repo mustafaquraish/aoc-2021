@@ -1,0 +1,8 @@
+frames/*
+.token
+*.dSYM
+.vscode
+.DS_Store
+__pycache__
+a.out
+input/*.txt
