@@ -3,6 +3,7 @@ from rich import print
 from parse import findall, parse
 from more_itertools import chunked, ilen
 from collections import Counter, defaultdict
+from heapq import heappush, heappop
 from tqdm import tqdm
 import re
 import statistics as stat
