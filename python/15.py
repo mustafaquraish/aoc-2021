@@ -1,8 +1,8 @@
 from common import *
+from math import sqrt
 
 with open(infile('15.txt'), 'r') as f:
-    g = [[int(x) for x in line.strip()] for line in f]
-    SX, SY = len(g[0]), len(g)
+    g, SX, SY = parse_block_grid(f.read())
     grid1 = grid_to_dict(g)
 
 def dijkstras(grid, start, end):

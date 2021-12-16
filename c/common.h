@@ -67,6 +67,8 @@ int cmp_u64_inc(const void *a, const void *b) {
 int sign(int x) { return x > 0 ? +1 : x == 0 ? 0 : -1; }
 int max(int a, int b) { return a > b ? a : b; }
 int min(int a, int b) { return a < b ? a : b; }
+u64 maxu64(u64 a, u64 b) { return a > b ? a : b; }
+u64 minu64(u64 a, u64 b) { return a < b ? a : b; }
 
 void swap(int *a, int *b) {
   int tmp = *a;

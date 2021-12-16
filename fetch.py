@@ -68,9 +68,12 @@ def get_from_format(args, fmt):
     fmt = fmt.replace("[[YEAR]]", str(args.year))
     path = Path(fmt)
     if path.exists():
-        replace = input(f"{fmt} already exists. Overwrite? [y/N] ")
-        if replace.lower() != "y":
-            return None
+        if args.force:
+            print(f"{fmt} already exists. Overwriting...")
+        else:
+            replace = input(f"{fmt} already exists. Overwrite? [y/N] ")
+            if replace.lower() != "y":
+                return None
     return path
 
 def get_input_file(args):
@@ -127,6 +130,7 @@ if __name__ == "__main__":
     parser.add_argument("year", type=str, help="Year of the Advent of Code")
     parser.add_argument("day", type=str, help="Day of the Advent of Code")
     parser.add_argument("--session-file", "-s", type=str, help="Custom session file", default=None)
+    parser.add_argument("--force", "-f", action='store_true', help="Force overwrite existing files")
 
     args = parser.parse_args()
 
