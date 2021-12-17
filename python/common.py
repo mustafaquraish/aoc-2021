@@ -1,18 +1,27 @@
 from copy import deepcopy
-from rich import print
-from parse import findall, parse
-from math import prod
-from more_itertools import chunked, ilen
+from math import sqrt
 from collections import Counter, defaultdict
 from heapq import heappush, heappop
-from tqdm import tqdm
 from time import perf_counter
 from contextlib import contextmanager
-from functools import cache, lru_cache
 import re
 import statistics as stat
 import sys
 from queue import PriorityQueue
+
+# These are not available on pypy, so we ignore them.
+try:
+    # External, can be installed
+    from parse import findall, parse
+    from tqdm import tqdm
+    from more_itertools import chunked, ilen
+    from rich import print
+    # Just no available AFAIK
+    from math import prod
+    from functools import cache, lru_cache
+except ImportError:
+    print('Warning, not all libraries available, some functionality may be limited')
+
 
 def infile(filename):
     if len(sys.argv) < 2:
