@@ -4,51 +4,47 @@ from textwrap import indent
 with open(infile('16.txt'), 'r') as f:
     data = "".join(f"{int(x,16):04b}" for x in f.read().strip())
 
-class Packet:
-    @staticmethod
-    def parse_from_text(text):
-        rest = text
-        version, rest = int(rest[:3], 2), rest[3:]
-        typeid, rest = int(rest[:3], 2), rest[3:]
-        packet = Packet(version, typeid)
-        if typeid == 4:
-            while True:
-                part, rest = rest[:5], rest[5:]
-                chunk = int("".join(part[1:]), 2)
-                packet.value = packet.value << 4 | chunk
-                if part[0] == '0':
-                    return packet, rest
+OFF = 0 # offset within the data
+
+def get_int(num_digits):
+    global OFF
+    res = int(data[OFF:OFF+num_digits],2)
+    OFF += num_digits
+    return res
+
+def parse():
+    packet = Packet()
+    packet.version = get_int(3)
+    packet.typeid = get_int(3)
+    packet.value = 0
+    packet.subs = []
     
-        mode, rest = rest[0], rest[1:]
-        if mode == '0':
-            length, rest = int(rest[:15], 2), rest[15:]
-            while length > 0:
-                subp, remaining = Packet.parse_from_text(rest)
-                packet.subs.append(subp)
-                length -= len(rest) - len(remaining)
-                rest = remaining
-        else:   
-            length, rest = int(rest[:11], 2), rest[11:]
-            for i in range(length):
-                subp, rest = Packet.parse_from_text(rest)
-                packet.subs.append(subp)
+    if packet.typeid == 4:
+        loop = True
+        while loop:
+            loop = bool(get_int(1))
+            packet.value = packet.value << 4 | get_int(4)
+        return packet
+    
+    if get_int(1) == 0:
+        size = get_int(15)
+        while size:
+            old = OFF
+            packet.subs.append(parse())
+            size -= OFF - old
+    else:
+        packet.subs = [parse() for _ in range(get_int(11))]
 
-        return packet, rest
+    return packet
 
-    def __init__(self, version, typeid):
-        self.version = version
-        self.typeid = typeid
-        self.value = 0 
-        self.subs = []
-
+class Packet:
     def __str__(self):
         if self.typeid == 4:
             s = f'Packet({self.version}, {self.typeid}, {self.value})'
         else:
             s = f'Packet({self.version}, {self.typeid},\n'
-            for p in self.subs:
-                s += indent(str(p), '  ') + '\n'
-            s += ')'
+            s += "\n".join(indent(str(p), '  ') for p in self.subs)
+            s += '\n)'
         return s
     
     def eval(self):
@@ -65,6 +61,7 @@ class Packet:
     def version_sum(self):
         return self.version + sum(p.version_sum() for p in self.subs)
 
-P, _ = Packet.parse_from_text(data)
+P = parse()
+# print(P)
 print("Part 1:", P.version_sum())
 print("Part 2:", P.eval())
