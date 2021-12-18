@@ -1,17 +1,14 @@
 from common import *
 
 with open(infile('18.txt'), 'r') as f:
-    text = f.read().strip()
-    lines = text.split('\n')
-
-data = get_all_ints(text)
+    lines = f.read().split('\n')
 
 class Node:
     @classmethod
     def from_list(cls, arr):
         if isinstance(arr, int):
             return cls(arr)
-        return Node(Node.from_list(arr[0]), Node.from_list(arr[1]))
+        return cls(Node.from_list(arr[0]), Node.from_list(arr[1]))
 
     def __init__(self, left, right=None):
         if right is None:
