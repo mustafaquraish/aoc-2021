@@ -9,6 +9,8 @@ import statistics as stat
 import sys
 from queue import PriorityQueue
 from functools import reduce
+from itertools import combinations, permutations, product
+import math
 
 # These are not available on pypy, so we ignore them.
 try:
