@@ -2,9 +2,9 @@
 
 #define SIZE 26
 
-u64 start[SIZE][SIZE] = {0};
-u64 counts[SIZE][SIZE] = {0};
-int mapping[SIZE][SIZE] = {0};
+u64 start[SIZE][SIZE] = {{0}};
+u64 counts[SIZE][SIZE] = {{0}};
+int mapping[SIZE][SIZE] = {{0}};
 int first = 0;
 
 void parse() {
@@ -63,7 +63,7 @@ u64 get_proof() {
 u64 solve(int iters) {
   memcpy(counts, start, sizeof(start));
   for (int i = 0; i < iters; i++) {
-    u64 tmp[SIZE][SIZE] = {0};
+    u64 tmp[SIZE][SIZE] = {{0}};
     for (int a = 0; a < SIZE; a++) {
       for (int b = 0; b < SIZE; b++) {
         if (counts[a][b] <= 0) continue;

@@ -172,7 +172,6 @@ int main() {
       PS_add(&locations, offset);
       done[i] = true;
       num_done++;
-      int old_size = accum.size;
       for (int j = 0; j < current.size; j++) {
         Point p = current.points[j];
         accum.points[accum.size++] = Padd(Porient(p, ori), offset);

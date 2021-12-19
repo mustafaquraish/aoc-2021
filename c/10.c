@@ -1,6 +1,6 @@
 #include "common.h"
 
-bool is_open(char c, int *kind) {
+bool is_open(char c, u64 *kind) {
   switch (c) {
     case '(': *kind = 1; return true;
     case ')': *kind = 1; return false;
@@ -29,7 +29,7 @@ void solve(char *buf, u64 *res, Vector *counts) {
   int N = strlen(buf);
 
   for (int i = 0; i < N; i++) {
-    int kind;
+    u64 kind;
     if (is_open(buf[i], &kind)) {
       Vec_push(&stack, kind);
     } else if (Vec_top(&stack) == kind) {

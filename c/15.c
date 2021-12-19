@@ -80,7 +80,7 @@ int dijkstras(int graph[GRID_SIZE][GRID_SIZE], int ex, int ey) {
   for (int row = 0; row < GRID_SIZE; row++)
     for (int col = 0; col < GRID_SIZE; col++)
       dist[row][col] = INT32_MAX;
-  bool visited[GRID_SIZE][GRID_SIZE] = {0};
+  bool visited[GRID_SIZE][GRID_SIZE] = {{0}};
   push(0, 0, 0);
 
   int cx, cy, cdist;

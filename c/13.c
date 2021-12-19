@@ -3,8 +3,8 @@
 Vector PX = {0};
 Vector PY = {0};
 
-bool point_exists(int x, int y) {
-  for (int i = 0; i < PX.size; i++)
+bool point_exists(u64 x, u64 y) {
+  for (u64 i = 0; i < PX.size; i++)
     if (PX.data[i] == x && PY.data[i] == y)
       return true;
   return false;
@@ -13,7 +13,7 @@ bool point_exists(int x, int y) {
 void dump() {
   int mn_x = INT32_MAX, mx_x = INT32_MIN;
   int mn_y = INT32_MAX, mx_y = INT32_MIN;
-  for (int i = 0; i < PX.size; i++) {
+  for (u64 i = 0; i < PX.size; i++) {
     mn_x = min(mn_x, PX.data[i]);
     mx_x = max(mx_x, PX.data[i]);
     mn_y = min(mn_y, PY.data[i]);
@@ -28,8 +28,8 @@ void dump() {
   }
 }
 
-void fold_vertical(int t) {
-  for (int i = 0; i < PY.size; i++)
+void fold_vertical(u64 t) {
+  for (u64 i = 0; i < PY.size; i++)
     if (PY.data[i] > t) {
       int ny = t+t-PY.data[i];
       if (!point_exists(PX.data[i], ny)) {
@@ -42,8 +42,8 @@ void fold_vertical(int t) {
     }
 }
 
-void fold_horizontal(int t) {
-  for (int i = 0; i < PX.size; i++)
+void fold_horizontal(u64 t) {
+  for (u64 i = 0; i < PX.size; i++)
     if (PX.data[i] > t) {
       int nx = t+t-PX.data[i];
       if (!point_exists(nx, PY.data[i])) {

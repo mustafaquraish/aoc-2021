@@ -25,8 +25,8 @@ u64 solve(bool part1) {
   u64 best = INT64_MAX;
   for (int i = vmin; i <= vmax; i++) {
     u64 sum = 0;
-    for (int j = 0; j < values.size; j++) {
-      u64 val = values.data[j];
+    for (u64 j = 0; j < values.size; j++) {
+      int val = values.data[j];
       u64 d = val > i ? val - i : i - val;
       sum += part1 ? d : d * (d + 1) / 2;
     }

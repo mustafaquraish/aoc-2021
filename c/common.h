@@ -43,13 +43,13 @@ inline u64 Vec_top(Vector *vec) {
   return vec->data[vec->size - 1];
 }
 
-inline u64 Vec_get(Vector *vec, int index) {
-  assert(index >= 0 && index < vec->size);
+inline u64 Vec_get(Vector *vec, u64 index) {
+  assert(index < vec->size);
   return vec->data[index];
 }
 
-inline int Vec_geti(Vector *vec, int index) {
-  assert(index >= 0 && index < vec->size);
+inline int Vec_geti(Vector *vec, u64 index) {
+  assert(index < vec->size);
   return vec->data[index];
 }
 

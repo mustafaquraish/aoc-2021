@@ -75,7 +75,7 @@ bool did_win(int index) {
 
 void solve() {
   int num_won = 0;
-  for (int n = 0; n < values.size; n++) {
+  for (u64 n = 0; n < values.size; n++) {
     int value = values.data[n];
     for (int i = 0; i < num_boards; i++) {
       if (did_win(i))

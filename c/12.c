@@ -20,7 +20,6 @@ int insert_and_get_index(char *name) {
 void parse() {
   FILE *f = fopen(INFILE("12.txt"), "r");
   char buf[100];
-  char a[100], b[100];
 
   while (fgets(buf, 100, f)) {
     char *line = buf;

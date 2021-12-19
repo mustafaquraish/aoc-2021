@@ -3,11 +3,11 @@
 double sqrt(double);
 int abs(int x) { return x < 0 ? -x : x; }
 
-int x1, x2, y1, y2;
+int X1, X2, Y1, Y2;
 
 void parse() {
   FILE *f = fopen(INFILE("17.txt"), "r");
-  fscanf(f, "target area: x=%d..%d, y=%d..%d", &x1, &x2, &y1, &y2);
+  fscanf(f, "target area: x=%d..%d, y=%d..%d", &X1, &X2, &Y1, &Y2);
   fclose(f);
 }
 
@@ -17,12 +17,12 @@ bool is_between(int a, int first, int second) {
 
 bool check_vel(int vx, int vy) {
   int x = 0, y = 0;
-  while (x <= x2 && y >= y1) {
+  while (x <= X2 && y >= Y1) {
     x += vx;
     y += vy;
     vx -= sign(vx);
     vy -= 1;
-    if (is_between(x, x1, x2) && is_between(y, y1, y2)) {
+    if (is_between(x, X1, X2) && is_between(y, Y1, Y2)) {
       return true;
     }
   }
@@ -31,8 +31,8 @@ bool check_vel(int vx, int vy) {
 
 int main() {
   parse();
-  int min_x = sqrt(2 * x1), max_x = x2+1;
-  int max_y = abs(y1) - 1,  min_y = -abs(y1);
+  int min_x = sqrt(2 * X1), max_x = X2+1;
+  int max_y = abs(Y1) - 1,  min_y = -abs(Y1);
   
   int count = 0;
   for (int vx = min_x; vx <= max_x; vx++)

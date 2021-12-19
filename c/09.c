@@ -35,7 +35,7 @@ void dump() {
   }
 
   printf("Lowest:\n");
-  for (int i = 0; i < lowest.size; i++)
+  for (u64 i = 0; i < lowest.size; i++)
     printf(" (%2llu, %2llu)\n", lowest.data[i] % GRID_SIZE, lowest.data[i] / GRID_SIZE);
 }
 
@@ -73,14 +73,14 @@ int dfs(int loc) {
 
 void part1() {
   u64 res = 0;
-  for (int i = 0; i < lowest.size; i++)
+  for (u64 i = 0; i < lowest.size; i++)
     res += grid[lowest.data[i]] + 1;
   printf("Part 1: %llu\n", res);
 }
 
 void part2() {
   Vector sizes = {0, 0, NULL};
-  for (int i = 0; i < lowest.size; i++) {
+  for (u64 i = 0; i < lowest.size; i++) {
     int size = dfs(lowest.data[i]);
     Vec_push(&sizes, size);
   }

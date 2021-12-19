@@ -1,6 +1,6 @@
 #include "common.h"
 
-u64 counts[11] = {0};
+u64 counts[12] = {0};
 
 void parse() {
   FILE *f = fopen(INFILE("06.txt"), "r");
@@ -20,7 +20,7 @@ u64 solve(int iters) {
   for (int i = 0; i < iters; i++) {
     counts[7] += counts[0];
     counts[9] += counts[0];
-    memcpy(counts, counts + 1, 10 * sizeof(counts[0]));
+    memmove(counts, counts + 1, 10 * sizeof(counts[0]));
   }
   u64 result = 0;
   for (int i = 0; i < 12; i++)

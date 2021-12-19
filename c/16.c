@@ -100,7 +100,7 @@ void dump_packet(Packet *packet, int depth) {
 
 u64 part1(Packet *packet) {
   u64 sum = packet->version;
-  for (u64 i = 0; i < packet->num_subs; i++) {
+  for (int i = 0; i < packet->num_subs; i++) {
     sum += part1(packet->subs[i]);
   }
   return sum;
@@ -110,25 +110,25 @@ u64 part2(Packet *packet) {
   if (packet->type == 4) return packet->value;
   if (packet->type == 0) {
     u64 sum = 0;
-    for (u64 i = 0; i < packet->num_subs; i++)
+    for (int i = 0; i < packet->num_subs; i++)
       sum += part2(packet->subs[i]);
     return sum;
   }
   if (packet->type == 1) {
     u64 prod = 1;
-    for (u64 i = 0; i < packet->num_subs; i++)
+    for (int i = 0; i < packet->num_subs; i++)
       prod *= part2(packet->subs[i]);
     return prod;
   }
   if (packet->type == 2) {
     u64 mn = INT64_MAX;
-    for (u64 i = 0; i < packet->num_subs; i++)
+    for (int i = 0; i < packet->num_subs; i++)
       mn = minu64(mn, part2(packet->subs[i]));
     return mn;
   }
   if (packet->type == 3) {
     u64 mx = 0;
-    for (u64 i = 0; i < packet->num_subs; i++)
+    for (int i = 0; i < packet->num_subs; i++)
       mx = maxu64(mx, part2(packet->subs[i]));
     return mx;
   }

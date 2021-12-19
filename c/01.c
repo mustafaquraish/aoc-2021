@@ -12,7 +12,7 @@ void parse() {
 
 void part1() {
   int count = 0;
-  for (int i = 1; i < values.size; i++) {
+  for (u64 i = 1; i < values.size; i++) {
     int a = Vec_get(&values, i - 1);
     int b = Vec_get(&values, i);
     count += (a < b);
@@ -22,7 +22,7 @@ void part1() {
 
 void part2() {
   int count = 0;
-  for (int i = 3; i < values.size; i++) {
+  for (u64 i = 3; i < values.size; i++) {
     int a = Vec_get(&values, i - 3);
     int b = Vec_get(&values, i - 2);
     int c = Vec_get(&values, i - 1);
