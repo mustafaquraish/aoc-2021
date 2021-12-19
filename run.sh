@@ -8,4 +8,4 @@ fi
 set -xe
 
 gcc -ggdb3 -O3 -I c/ c/$1.c
-./a.out
+time ./a.out
