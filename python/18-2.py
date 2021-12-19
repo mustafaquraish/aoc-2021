@@ -1,7 +1,6 @@
-from functools import reduce
-from sys import argv
+import sys, functools, itertools
 
-with open(argv[1]) as f:
+with open(sys.argv[1]) as f:
     def handle(v, d=0):
         return [[v, d]] if isinstance(v, int) else handle(v[0], d+1) + handle(v[1], d+1)
     lines = [handle(eval(line)) for line in f.read().split('\n')]
@@ -34,5 +33,5 @@ def mag(line):
                 break
     return line[0][0]
 
-print("Part 1:", mag(reduce(add, lines)))
-print("Part 2:", max(max(mag(add(a, b)), mag(add(b,a))) for a in lines for b in lines if a != b))
+print("Part 1:", mag(functools.reduce(add, lines)))
+print("Part 2:", max(mag(add(a, b)) for a,b in itertools.permutations(lines, 2)))
