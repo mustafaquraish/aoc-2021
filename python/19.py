@@ -10,8 +10,8 @@ sub = lambda a, b: tuple(x-y for x,y in zip(a,b))
 add = lambda a, b: tuple(x+y for x,y in zip(a,b))
 
 @cache
-def make_offset_table(lst):
-    return { p: frozenset(sub(p,q) for q in lst) for p in lst }
+def pairwise_dists(lst):
+    return { p: { sum((x-y)**2 for x,y in zip(p,q)) for q in lst } for p in lst }
 
 def orient(pt, orientation):
     a, b, c = pt
@@ -23,20 +23,25 @@ def orient(pt, orientation):
     )[orientation]
 
 def all_possible_orientations(pts):
-    return ((i, frozenset(orient(x, i) for x in pts)) for i in range(24))
+    return ((i, { orient(x, i) for x in pts }) for i in range(24))
 
 def enough_common_points(offs1, offs2):
     for x, xv in offs1.items():
         for y, yv in offs2.items():
             if len(xv & yv) >= 12:
-                return sub(x, y)
+                return (x, y)
 
 def do_scanners_match(scanner1, scanner2):
-    offsets1 = make_offset_table(scanner1)
-    for orientation, beacons in all_possible_orientations(scanner2):
-        offsets2 = make_offset_table(beacons)
-        if result := enough_common_points(offsets1, offsets2):
-            return result, orientation
+    dists1 = pairwise_dists(scanner1)
+    dists2 = pairwise_dists(scanner2)
+    if not (result := enough_common_points(dists1, dists2)):
+        return False
+    p1, p2 = result
+    offs1 = set(sub(p1, q) for q in scanner1)
+    offs2 = set(sub(p2, q) for q in scanner2)
+    for ori, lst in all_possible_orientations(offs2):
+        if len(offs1 & lst) >= 12:
+            return sub(p1, orient(p2, ori)), ori
 
 remaining = deepcopy(data)
 beacons = remaining.pop(0)
