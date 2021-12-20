@@ -43,7 +43,7 @@ int pixel(int i, int j) {
 }
 
 int mapping_index(int i, int j) {
-  static const int NBS[9][2] = {
+  static int NBS[9][2] = {
     {-1, -1}, {-1, 0}, {-1, 1},
     { 0, -1}, { 0, 0}, { 0, 1},
     { 1, -1}, { 1, 0}, { 1, 1}
@@ -54,10 +54,13 @@ int mapping_index(int i, int j) {
   return k;
 }
 
-void enhance() {
+int enhance() {
+  int sum = 0;
   for (int i = -1; i <= grid_size; i++)
-    for (int j = -1; j <= grid_size; j++)
+    for (int j = -1; j <= grid_size; j++) {
       buffer[i+1][j+1] = mapping[mapping_index(i, j)];
+      sum += buffer[i+1][j+1];
+    }
   grid_size += 2;
   memcpy(grid, buffer, sizeof(grid));
 
@@ -65,25 +68,18 @@ void enhance() {
   // every iteration. Assumes the pair is always (0,1) or (1,0) only.
   if (mapping[0] == 1) // (and mapping[-1] == 0)
     default_val = !default_val;
-}
-
-int sum_on() {
-  int sum = 0;
-  for (int i = 0; i < grid_size; i++)
-    for (int j = 0; j < grid_size; j++)
-      sum += grid[i][j];
   return sum;
 }
 
 int main() {
   parse();
 
-  int i = 0;
-  for (; i < 2; i++) enhance();
-  printf("Part 1: %d\n",sum_on());
+  int i = 0, sum;
+  for (; i < 2; i++) sum = enhance();
+  printf("Part 1: %d\n", sum);
 
-  for (; i < 50; i++) enhance();
-  printf("Part 2: %d\n",sum_on());
+  for (; i < 50; i++) sum = enhance();
+  printf("Part 2: %d\n",sum);
 
   return 0;
 }

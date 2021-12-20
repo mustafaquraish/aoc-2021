@@ -14,18 +14,19 @@ def neighbourhood(i, j):
 def enhance(grid):
     max_i, max_j = len(grid), len(grid[0])
 
-    def mapping_index(ci, cj):
+    def find_value(ci, cj):
         k = 0
         for i, j in neighbourhood(ci, cj):
             v = default_value
             if 0 <= i < max_i and 0 <= j < max_j:
                 v = grid[i][j]
             k = k << 1 | v
-        return k
+        return mapping[k]
 
-    new = [[ mapping[mapping_index(i, j)]
-            for j in range(-1, max_j+1) ]
-        for i in range(-1, max_i+1) ]
+    new = [
+        [ find_value(i, j) for j in range(-1, max_j+1) ]
+        for i in range(-1, max_i+1)
+    ]
 
     # Careful! in this case the whole infinite grid outside changes values
     # every iteration. Assumes the pair is always (0,1) or (1,0) only.
