@@ -9,6 +9,7 @@
 #include <stdint.h>
 
 typedef uint64_t u64;
+typedef int64_t i64;
 typedef uint32_t u32;
 typedef uint16_t u16;
 typedef uint8_t u8;
@@ -73,6 +74,12 @@ u64 minu64(u64 a, u64 b) { return a < b ? a : b; }
 
 void swap(int *a, int *b) {
   int tmp = *a;
+  *a = *b;
+  *b = tmp;
+}
+
+void swapu64(u64 *a, u64 *b) {
+  u64 tmp = *a;
   *a = *b;
   *b = tmp;
 }
