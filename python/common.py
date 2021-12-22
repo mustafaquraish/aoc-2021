@@ -1,4 +1,5 @@
 from copy import deepcopy
+from dataclasses import dataclass
 from math import sqrt
 from collections import Counter, defaultdict
 from heapq import heappush, heappop
@@ -9,7 +10,8 @@ import statistics as stat
 import sys
 from queue import PriorityQueue
 from functools import reduce
-from itertools import combinations, permutations, product
+from itertools import combinations, permutations, product, cycle
+from timeit import timeit
 import math
 
 # These are not available on pypy, so we ignore them.
@@ -69,7 +71,7 @@ def range_span(lst):
     return range(mn, mx+1)
 
 @contextmanager
-def timer(s) -> float:
+def timer(s="Timer") -> float:
     start = perf_counter()
     yield
     end = perf_counter()
