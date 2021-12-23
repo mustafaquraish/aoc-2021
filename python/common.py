@@ -9,7 +9,7 @@ import re
 import statistics as stat
 import sys
 from queue import PriorityQueue
-from functools import reduce
+from functools import reduce, lru_cache
 from itertools import combinations, permutations, product, cycle
 from timeit import timeit
 import math
