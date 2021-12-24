@@ -60,7 +60,6 @@ def solve(inbounds):
         if OP == True:
             new_cubes.append(cur_cube)
         all_cubes = new_cubes
-        print(all_cubes)
     return sum(c.area() for c in all_cubes)
 
 print("Part 1:", solve(True))

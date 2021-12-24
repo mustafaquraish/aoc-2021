@@ -6,9 +6,6 @@ with open(infile('23s.txt')) as f:
 COLS = {'A': 2, 'B': 4, 'C': 6, 'D': 8}
 COST = {'A': 1, 'B': 10, 'C': 100, 'D': 1000}
 
-def distance(a, b):
-    return abs(a[1] - b[1]) + abs(a[0] - b[0])
-
 def in_room(pod):
     _, (row, _) = pod
     return row > 0
@@ -33,9 +30,6 @@ class Grid:
 
     def __eq__(self, other):
         return self.pods == other.pods
-
-    def __iter__(self):
-        yield from self.pods
 
     def __repr__(pods, N=2):
         grid = [list("╭―――――――――――╮"),
@@ -120,8 +114,7 @@ def solve(grid):
     return lowest
 
 def part1():
-    cur_pods = deepcopy(pods)
-    return solve(Grid(pods, 2))
+    return solve(Grid(deepcopy(pods), 2))
 
 def part2():
     cur_pods = deepcopy(pods)
@@ -129,12 +122,12 @@ def part2():
         char, (row, col) = pod
         if row == 2:
             cur_pods[i] = (char, (4, col))
-    cur_pods += [
-        ('D',(2,2)), ('C',(2,4)), ('B',(2,6)), ('A',(2,8)),
-        ('D',(3,2)), ('B',(3,4)), ('A',(3,6)), ('C',(3,8)),
-    ]
+    cur_pods += [ ('D',(2,2)), ('C',(2,4)), ('B',(2,6)), ('A',(2,8)) ]
+    cur_pods += [ ('D',(3,2)), ('B',(3,4)), ('A',(3,6)), ('C',(3,8)) ]
     return solve(Grid(cur_pods, 4))
 
 
 print("Part 1:", part1())
+print(solve.cache_info())
 print("Part 2:", part2())
+print(solve.cache_info())
