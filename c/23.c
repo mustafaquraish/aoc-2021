@@ -105,9 +105,8 @@ bool available_spots(Grid *grid, Pod pod, Pod results[10], int *res_count) {
       bool ok = true;
       for (int i = 0; i < grid->num_pods && ok; i++) {
         Pod cur = grid->pods[i];
-        if (cur.col == pod.col && cur.row > pod.row) {
+        if (cur.col == pod.col && cur.row > pod.row)
           ok = ok && cur.val == pod.val;
-        }
       }
 
       // All elments below are the same, done!
@@ -117,15 +116,12 @@ bool available_spots(Grid *grid, Pod pod, Pod results[10], int *res_count) {
     // Trapped if there's something above me
     for (int i = 0; i < grid->num_pods; i++) {
       Pod cur = grid->pods[i];
-      if (cur.col == pod.col && cur.row < pod.row) {
+      if (cur.col == pod.col && cur.row < pod.row)
         return false;
-      }
     }
 
-    for (int i = 0; i < movable_count; i++) {
-      results[*res_count] = movable[i];
-      (*res_count)++;
-    }
+    for (int i = 0; i < movable_count; i++)
+      results[(*res_count)++] = movable[i];
     return true;
   }
 
@@ -138,107 +134,19 @@ bool available_spots(Grid *grid, Pod pod, Pod results[10], int *res_count) {
   }
 
   // Don't go back in if there's other chars
-  bool ok = true;
   int count = 0;
-  for (int i = 0; i < grid->num_pods && ok; i++) {
+  for (int i = 0; i < grid->num_pods; i++) {
     Pod cur = grid->pods[i];
     if (cur.col == dest_col) {
+      if (cur.val != pod.val)
+        return false;
       count++;
-      ok = ok && cur.val == pod.val;
     }
   }
-  if (!ok) return false;
 
-  results[*res_count] = (Pod){grid->N - count, dest_col, pod.val};
-  (*res_count)++;
+  results[(*res_count)++] = (Pod){grid->N - count, dest_col, pod.val};
   return true;
 }
-
-#pragma region dijkstra
-#if 0
-
-typedef struct {
-  Grid grid;
-  int pri;
-} QElem;
-
-#define MAX_QUEUE_SIZE 500000
-QElem Q[MAX_QUEUE_SIZE];
-int Qsize = 0;
-
-void push(Grid *grid, int priority) {
-  // printf("Pushing %d: %d\n", priority, Qsize);
-  assert(Qsize < MAX_QUEUE_SIZE);
-  Q[Qsize] = (QElem){*grid, priority};
-  int cur = Qsize++;
-  int PARENT = ((cur + 1) >> 1) - 1;
-  while (cur > 0 && Q[cur].pri < Q[PARENT].pri) {
-    QElem tmp = Q[cur];
-    Q[cur] = Q[PARENT];
-    Q[PARENT] = tmp;
-    cur = PARENT;
-    PARENT = ((cur + 1) >> 1) - 1;
-  }
-}
-
-void pop(Grid *grid, int *p) {
-  *grid = Q[0].grid;
-  *p = Q[0].pri;
-  Q[0] = Q[--Qsize];
-  int cur, min = 0;
-  do {
-    cur = min;
-    int RCHILD = (cur + 1) << 1;
-    int LCHILD = RCHILD - 1;
-    if (LCHILD < Qsize && Q[LCHILD].pri < Q[min].pri)
-      min = LCHILD;
-    if (RCHILD < Qsize && Q[RCHILD].pri < Q[min].pri)
-      min = RCHILD;
-    QElem tmp = Q[cur];
-    Q[cur] = Q[min];
-    Q[min] = tmp;
-  } while (cur != min);
-  return;
-}
-
-/**
- * TODO: Fix this, it doesn't work :(
- */
-i64 dijkstras(Grid *grid) {
-  Qsize = 0;
-  push(grid, 0);
-  while (Qsize > 0) {
-    int pri;
-    Grid cur;
-    pop(&cur, &pri);
-
-    bool done = true;
-    for (int i = 0; i < cur.num_pods; i++)
-      done = done && in_correct_room(cur.pods[i]);
-    if (done) return pri;
-
-    Pod results[10];
-    int res_count;
-    bool final;
-    for (int i = 0; i < cur.num_pods; i++) {
-      Pod pod = cur.pods[i];
-      if (available_spots(&cur, pod, results, &res_count, &final)) {
-        for (int j = 0; j < res_count; j++) {
-          Grid new_grid = cur;
-          new_grid.pods[i] = results[j];
-
-          int distance = abs(pod.row - results[j].row) + abs(pod.col - results[j].col);
-          int step_cost = distance * COST[pod.val - 'A'];
-          
-          push(&new_grid, pri + step_cost);
-        }
-      }
-    }
-  }
-  assert(false && "Shouldn't reach here");
-}
-#endif
-#pragma endregion dijkstra
 
 #define HT_CAP 300000
 #define BUCKET_CAP 100
@@ -257,7 +165,7 @@ bool Grid_eq(Grid *a, Grid *b) {
 }
 
 u64 Grid_hash(Grid *grid) {
-  u64 hash = 0xdeafbeefc001beef;
+  u64 hash = 0xdeadbeefdeadc0de;
   for (int i = 0; i < grid->num_pods; i++) {
     hash = hash * 239 + grid->pods[i].val;
     hash = hash ^ (hash >> 32);
