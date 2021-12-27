@@ -6,3 +6,4 @@ frames/*
 __pycache__
 a.out
 input/*.txt
+/exe

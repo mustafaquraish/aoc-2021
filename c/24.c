@@ -26,20 +26,20 @@ void parse() {
   fclose(f);
 }
 
-bool solve(int idx, bool big, int z, char result[15]) {
+bool solve(int idx, bool big, i64 z, char result[15]) {
   if (idx == 14 && z == 0)
     return true;
   if (data[idx][0]) {
-    for (int i = 1; i < 10; i++) {
-      int j = big ? 10 - i : i;
-      int new_z = 26*z + data[idx][2] + j;
+    for (i64 i = 1; i < 10; i++) {
+      i64 j = big ? 10 - i : i;
+      i64 new_z = 26*z + data[idx][2] + j;
       if (solve(idx+1, big, new_z, result)) {
         result[idx] = j + '0';
         return true;
       }
     }
   } else {
-    int digit = (z % 26) + data[idx][1];
+    i64 digit = (z % 26) + data[idx][1];
     if (1 <= digit && digit <= 9 && solve(idx+1, big, z/26, result)) {
       result[idx] = digit + '0';
       return true;

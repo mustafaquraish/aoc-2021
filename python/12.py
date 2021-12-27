@@ -7,23 +7,25 @@ for a, b in lines:
     data[a] = data.get(a, []) + [b]
     data[b] = data.get(b, []) + [a]
 
-def all_paths(path, cond):
-    if path[-1] == 'end':
-        yield path
-    for n in data[path[-1]]:
-        if n.isupper() or cond(n, path):
-            yield from all_paths((*path, n), cond)
+@cache
+def count_paths(cur="start", twice=0, visited=frozenset({'start'})):
+    if cur == "end":
+        return 1-twice, 1
+    
+    c1, c2 = 0, 0
+    for n in data[cur]:
+        rc1 = rc2 = 0
+        if not n in visited:
+            if n.islower():
+                rc1, rc2 = count_paths(n, twice, visited | {n})
+            else:
+                rc1, rc2 = count_paths(n, twice, visited)
+        elif twice==0 and n != "start":
+            rc1, rc2 = count_paths(n, 1, visited)
+        c1 += rc1
+        c2 += rc2
+    return c1, c2
 
-def part1():
-    cond = lambda n, path: n not in path
-    print("Part 1:", ilen(all_paths(['start'], cond)))
-
-def part2():
-    def cond(n, path):
-        if n not in path: return True
-        if n in ('start', 'end'): return False
-        return not any(path.count(c) == 2 for c in path if c.islower())
-    print("Part 2:", ilen(all_paths(['start'], cond)))
-
-part1()
-part2()
+c1, c2 = count_paths()
+print("Part 1:", c1)
+print("Part 2:", c2)

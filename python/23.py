@@ -1,6 +1,6 @@
 from common import *
 
-with open(infile('23s.txt')) as f:
+with open(infile('23.txt')) as f:
     lines = f.read().split('\n')
 
 COLS = {'A': 2, 'B': 4, 'C': 6, 'D': 8}
@@ -31,7 +31,7 @@ class Grid:
     def __eq__(self, other):
         return self.pods == other.pods
 
-    def __repr__(pods, N=2):
+    def __repr__(self):
         grid = [list("╭―――――――――――╮"),
                 list("│...........│"),
                 list("╰―╮.│.│.│.╭―╯"),
@@ -40,10 +40,10 @@ class Grid:
                 list("  │.│.│.│.│"),
                 list("  ╰―┴―┴―┴―╯")]
 
-        for char, (row, col) in pods:
+        for char, (row, col) in self.pods:
             grid[row+1][col+1] = char
 
-        grid = grid[:N+2]+grid[-1:]
+        grid = grid[:self.N+2]+grid[-1:]
         return "\n".join("".join(row) for row in grid)
     
     def available_spots_for(self, start):
@@ -126,8 +126,5 @@ def part2():
     cur_pods += [ ('D',(3,2)), ('B',(3,4)), ('A',(3,6)), ('C',(3,8)) ]
     return solve(Grid(cur_pods, 4))
 
-
 print("Part 1:", part1())
-print(solve.cache_info())
 print("Part 2:", part2())
-print(solve.cache_info())

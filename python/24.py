@@ -1,4 +1,6 @@
-with open('input/24.txt') as f:
+from common import *
+
+with open(infile('24.txt')) as f:
     blocks = [x.strip().split('\n') for x in f.read().strip().split('inp')[1:]]
 
 digits = []
